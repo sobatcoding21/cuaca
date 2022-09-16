@@ -39,6 +39,7 @@ dependencies:
   xml: ^6.1.0
   http: ^0.13.5
   xml2json: ^5.3.5
+  weather_icons: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -78,11 +79,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: Roboto
+      fonts:
+         - asset: fonts/Roboto-Light.ttf
+         - asset: fonts/Roboto-Medium.ttf
+         - asset: fonts/Roboto-Thin.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

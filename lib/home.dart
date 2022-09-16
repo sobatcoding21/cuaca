@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
     return Card(
         child: ListTile(
           trailing: IconButton(icon: const Icon(Icons.more_vert), onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: ((context) => DetailInfo(title: item['description'] ,infoData: item['parameter']))));
+            Navigator.of(context).push(MaterialPageRoute(builder: ((context) => DetailInfo(title: item['description'] , headerInfo: item['name'],  infoData: item['parameter']))));
           },),
           title: Text(
           item['description'],
@@ -62,7 +62,7 @@ class _HomeState extends State<Home> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       var item = snapshot.data[index];
-                      debugPrint(item.toString());
+                      //debugPrint(item.toString());
                       return buildListKota(item);
                     });
               } else {
