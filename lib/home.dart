@@ -33,11 +33,18 @@ class _HomeState extends State<Home> {
   Widget buildListKota(item) {
     return Card(
         child: ListTile(
-          trailing: IconButton(icon: const Icon(Icons.more_vert), onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: ((context) => DetailInfo(title: item['description'] , headerInfo: item['name'],  infoData: item['parameter']))));
-          },),
-          title: Text(
-          item['description'],
+      trailing: IconButton(
+        icon: const Icon(Icons.more_vert),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: ((context) => DetailInfo(
+                  title: item['description'],
+                  headerInfo: item['name'],
+                  infoData: item['parameter']))));
+        },
+      ),
+      title: Text(
+        item['description'],
       ),
     ));
   }
@@ -51,24 +58,43 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
-        body: Container(
-          margin: const EdgeInsets.all(0),
-          child: FutureBuilder<List<dynamic>>(
-            future: getDataCuacaJatim(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      var item = snapshot.data[index];
-                      //debugPrint(item.toString());
-                      return buildListKota(item);
-                    });
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              TextField(
+                onChanged: (value) {
+                  //
+                },
+                decoration: const InputDecoration(
+                    labelText: 'Search', suffixIcon: Icon(Icons.search)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: FutureBuilder<List<dynamic>>(
+                  future: getDataCuacaJatim(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          padding: const EdgeInsets.all(10),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var item = snapshot.data[index];
+                            //debugPrint(item.toString());
+                            return buildListKota(item);
+                          });
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
         ));
   }

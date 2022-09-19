@@ -55,6 +55,7 @@ class _DetailInfoState extends State<DetailInfo> {
   Widget bottomInformation(h, w, start, last) {
     double widthCol = w / 4;
     double heightColumn = (h / 4) - 60;
+    List<dynamic> hari = ["Pagi", "Siang", "Sore", "Dini Hari", "Pagi", "Siang", "Sore", "Dini Hari", "Pagi", "Siang", "Sore", "Dini Hari"];
 
     final children = <Widget>[];
     for (int i = start; i <= last; i++) {
@@ -63,8 +64,8 @@ class _DetailInfoState extends State<DetailInfo> {
         width: widthCol,
         height: heightColumn,
         child: Column(children: [
-          const Text("Pagi",
-              style: TextStyle(color: Colors.white, fontSize: 12)),
+          Text(hari[i],
+              style: const TextStyle(color: Colors.white, fontSize: 12)),
           parserIconWheather(dataWeather!['timerange'][i]['value']['\$t'], 35),
           const SizedBox(height: 13),
           Row(
