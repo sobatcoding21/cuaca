@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cuaca/detail.dart';
@@ -15,11 +16,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Future<List<dynamic>> getDataCuacaJatim() async {
+  TextEditingController searchController = TextEditingController();
+  String textSearch = '';
+  StreamController? streamDataBMKG;
+
+  Future<List<dynamic>> fetchDataBMKGJatim() async {
     var uRL =
         "https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-JawaTimur.xml";
-    //final document = XmlDocument.parse(uRL);
-    //debugPrint(document.toString());
 
     final result = await http.get(Uri.parse(uRL));
     final Xml2Json xml2Json = Xml2Json();
@@ -31,22 +34,22 @@ class _HomeState extends State<Home> {
   }
 
   Widget buildListKota(item) {
-    return Card(
-        child: ListTile(
-      trailing: IconButton(
-        icon: const Icon(Icons.more_vert),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: ((context) => DetailInfo(
-                  title: item['description'],
-                  headerInfo: item['name'],
-                  infoData: item['parameter']))));
-        },
-      ),
-      title: Text(
-        item['description'],
-      ),
-    ));
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: ((context) => DetailInfo(
+                title: item['description'],
+                headerInfo: item['name'],
+                infoData: item['parameter']))));
+      },
+      child: Card(
+          child: ListTile(
+        title: Text(
+          item['description'],
+        ),
+        subtitle: Text(item['name'][1]['\$t'].toString()),
+      )),
+    );
   }
 
   @override
@@ -57,35 +60,74 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
-        body: Padding(
+        appBar: AppBar(
+          title: Text(
+            widget.title,
+            style: const TextStyle(fontSize: 18),
+          ),
+          centerTitle: true,
+        ),
+        body: Container(
+          color: Colors.lightBlue,
           padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
-              TextField(
-                onChanged: (value) {
-                  //
-                },
-                decoration: const InputDecoration(
-                    labelText: 'Search', suffixIcon: Icon(Icons.search)),
+              Padding(
+                padding: const EdgeInsets.all(13.0),
+                child: TextField(
+                  controller: searchController,
+                  onChanged: (value) {
+                    setState(() {
+                      textSearch = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                      labelText: 'Cari disini ...',
+                      suffixIcon: Icon(Icons.search),
+                      fillColor: Colors.white,
+                      filled: true,
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: Colors.white10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 2, color: Colors.white38),
+                      )),
+                ),
               ),
-              const SizedBox(
+              Container(
                 height: 20,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(width: 0.8, color: Colors.white),
+                  ),
+                ),
               ),
               Expanded(
                 child: FutureBuilder<List<dynamic>>(
-                  future: getDataCuacaJatim(),
+                  future: fetchDataBMKGJatim(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+
                     if (snapshot.hasData) {
+                      List<dynamic> dataKota = snapshot.data;
+                      if (textSearch.isNotEmpty) {
+                        dataKota = dataKota.where((element) {
+                          return element['description']
+                              .toString()
+                              .toLowerCase()
+                              .contains(textSearch.toString().toLowerCase());
+                        }).toList();
+                      }
                       return ListView.builder(
                           padding: const EdgeInsets.all(10),
-                          itemCount: snapshot.data.length,
+                          itemCount: dataKota.length,
                           itemBuilder: (BuildContext context, int index) {
-                            var item = snapshot.data[index];
-                            //debugPrint(item.toString());
+                            var item = dataKota[index];
                             return buildListKota(item);
                           });
                     } else {
