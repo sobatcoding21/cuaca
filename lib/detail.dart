@@ -338,6 +338,14 @@ class _DetailInfoState extends State<DetailInfo> {
                         fit: BoxFit.cover)),
                 padding: const EdgeInsets.all(0),
                 child: Stack(children: [
+                   Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      color: Colors.white,
+                      margin: const EdgeInsets.only(top: 8),
+                      padding: const EdgeInsets.only(top: 2.0, right: 8.0, bottom: 2.0, left: 8.0),
+                      child: const Text("Sumber data BMKG", style: TextStyle(fontSize: 12, color: Colors.black),)),
+                  ),
                   Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
