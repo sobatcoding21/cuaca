@@ -20,10 +20,10 @@ class DetailInfo extends StatefulWidget {
 }
 
 class _DetailInfoState extends State<DetailInfo> {
-  Map<String, dynamic>? dataDetail;
-  Map<String, dynamic>? dataSuhu;
-  Map<String, dynamic>? dataCuaca;
-  List<dynamic>? perkiraanCuaca;
+  //Map<String, dynamic>? dataDetail;
+  //Map<String, dynamic>? dataSuhu;
+  //Map<String, dynamic>? dataCuaca;
+  //List<dynamic>? perkiraanCuaca;
   Map<String, dynamic>? dataHumadity;
   Map<String, dynamic>? windDirection;
   Map<String, dynamic>? windSpeed;
@@ -31,18 +31,18 @@ class _DetailInfoState extends State<DetailInfo> {
   Map<String, dynamic>? dataTemperature;
   Map<String, dynamic>? dataWeather;
 
-  String? nama;
-  String? detail;
+  //String? nama;
+  //String? detail;
 
   @override
   void initState() {
     dataTemperature = widget.infoData[5];
     dataWeather = widget.infoData[6];
 
-    dataDetail = widget.infoData[0];
-    dataSuhu = widget.infoData[2];
-    dataCuaca = widget.infoData[6];
-    perkiraanCuaca = widget.infoData[5]['timerange'];
+    //dataDetail = widget.infoData[0];
+    //dataSuhu = widget.infoData[2];
+    //dataCuaca = widget.infoData[6];
+    //perkiraanCuaca = widget.infoData[5]['timerange'];
     dataHumadity = widget.infoData[0];
     windDirection = widget.infoData[7];
     windSpeed = widget.infoData[8];
@@ -213,7 +213,7 @@ class _DetailInfoState extends State<DetailInfo> {
           child: Column(children: [
             const Text("Pagi",
                 style: TextStyle(color: Colors.white, fontSize: 12)),
-            parserIconWheather(dataCuaca!['timerange'][1]['value']['\$t'], 35),
+            parserIconWheather(dataWeather!['timerange'][1]['value']['\$t'], 35),
             const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -236,7 +236,7 @@ class _DetailInfoState extends State<DetailInfo> {
           child: Column(children: [
             const Text("Siang",
                 style: TextStyle(color: Colors.white, fontSize: 12)),
-            parserIconWheather(dataCuaca!['timerange'][2]['value']['\$t'], 35),
+            parserIconWheather(dataWeather!['timerange'][2]['value']['\$t'], 35),
             const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +259,7 @@ class _DetailInfoState extends State<DetailInfo> {
           child: Column(children: [
             const Text("Malam",
                 style: TextStyle(color: Colors.white, fontSize: 12)),
-            parserIconWheather(dataCuaca!['timerange'][3]['value']['\$t'], 35),
+            parserIconWheather(dataWeather!['timerange'][3]['value']['\$t'], 35),
             const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -282,7 +282,7 @@ class _DetailInfoState extends State<DetailInfo> {
           child: Column(children: [
             const Text("Dini Hari",
                 style: TextStyle(color: Colors.white, fontSize: 12)),
-            parserIconWheather(dataCuaca!['timerange'][4]['value']['\$t'], 35),
+            parserIconWheather(dataWeather!['timerange'][4]['value']['\$t'], 35),
             const SizedBox(height: 13),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
